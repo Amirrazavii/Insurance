@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace Insurance.Models
@@ -17,27 +18,34 @@ namespace Insurance.Models
 
 
          
-         public string Roll{get;set;}="user";
+         private string Roll{get;set;}="user";
 
          public ICollection<HistoryInsurance> HistoryInsurance { get; set; }
     }
 
 
 
-    public class  HistoryInsurance
-    { 
+    public class  HistoryInsurance:IDisposable
+    {
+        internal int length;
+
         public int Id { get; set; }
        public string Name{get;set;}
 
+        public int number{get;set;}
         public double Percent{get;set;}
 
-
-        public double Insurancecalculation{get;set;}
+       [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public double Insurancecalculation{get{return number * Percent;} private set{}}
 
         
-        public int UserId{get; set;}
+        public int UserId{get ; set;}
         public User User {get; set;}
 
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 
@@ -65,7 +73,9 @@ namespace Insurance.Models
             .HasForeignKey(u => u.UserId)
             .OnDelete(DeleteBehavior.Cascade);         
     }
-}
+
+
+    }
 
 }
 

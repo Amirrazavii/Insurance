@@ -1,4 +1,5 @@
 using Insurance.Models;
+using Insurance.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<InsuranceContext>();
+builder.Services.AddScoped<Insuranceservice>();
+builder.Services.AddScoped<Userservice>();
+
 
 var app = builder.Build();
 
